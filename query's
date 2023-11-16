@@ -1,0 +1,48 @@
+-- Create Parts Table
+CREATE TABLE Parts (
+    part_id INT AUTO_INCREMENT PRIMARY KEY,
+    part_number VARCHAR(50) UNIQUE,
+    description VARCHAR(255),
+    quantity INT,
+    price DECIMAL(10, 2),
+    supplier_id INT,
+    warehouse_id INT,
+    FOREIGN KEY (supplier_id) REFERENCES Suppliers(supplier_id),
+    FOREIGN KEY (warehouse_id) REFERENCES Warehouses(warehouse_id)
+);
+
+-- Create Suppliers Table
+CREATE TABLE Suppliers (
+    supplier_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    contact_info VARCHAR(255)
+);
+
+-- Create Orders Table
+CREATE TABLE Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_number VARCHAR(50) UNIQUE,
+    total_cost DECIMAL(10, 2)
+);
+
+-- Create Order_Parts Table (or Order_Details Table)
+CREATE TABLE Order_Parts (
+    order_id INT,
+    part_id INT,
+    quantity INT,
+    PRIMARY KEY (order_id, part_id),
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (part_id) REFERENCES Parts(part_id)
+);
+
+-- Create Warehouses Table
+CREATE TABLE Warehouses (
+    warehouse_id INT AUTO_INCREMENT PRIMARY KEY,
+    location VARCHAR(100),
+    capacity INT
+);
+
+-- Get table names
+SELECT table_name
+FROM INFORMATION_SCHEMA.TABLES
+WHERE table_schema = 'automotive_inventory';
